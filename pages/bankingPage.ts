@@ -1,11 +1,9 @@
 import {Page} from "@playwright/test";
 
 export class BankingPage {
-    private readonly bankTitle = this.page.toHaveTitle('XYZ Bank');
     private readonly customerLogin =  this.page.getByRole('button', {name: 'Customer Login'});
     private readonly userSelect = this.page.locator('#userSelect');
     private readonly submitButton = this.page.locator('button[ng-show^=\'custId\']', {name: "submit"});
-    private readonly bankURL =  this.page.toHaveURL('https://www.globalsqa.com/angularJs-protractor/BankingProject/#/account');
     private readonly bankLogin = this.page.getByRole('button', {name: 'Bank Manager Login'});
     private readonly addNewCustomer = this.page.getByRole('button', {name: 'Add Customer'});
     private readonly customerFirstName = this.page.getByPlaceholder('First Name');
@@ -25,7 +23,35 @@ export class BankingPage {
         private page: Page
     ) {}
 
-    public async bankURLTest() {
 
-    }
+    //Login methods
+    public async loginButton() {
+        await this.customerLogin.click()
+    };
+    public async userSelector(value: string) {
+        await this.userSelect.selectOption(value)
+    };
+    public async pressSubmitButton() {
+        await this.submitButton.dblclick()
+    };
+    public async checkPageURL() {
+        await this.bankURL()
+    };
+
+
+    //Add new customer methods
+    public async addCustomerFirstName(firstName: string) {
+        await this.customerFirstName.fill(firstName);
+    };
+    public async addCustomerLastName(lastName: string) {
+        await this.customerLastName.fill(lastName);
+    };
+    public async addCustomerPostCode(postCode: string) {
+        await this.customerPostCode.fill(postCode);
+    };
+    public async pressCustomerButton() {
+        await this.customerAddButton.click();
+    };
+
+
 }

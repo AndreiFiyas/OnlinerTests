@@ -1,23 +1,25 @@
 import {expect, test} from "@playwright/test";
-import assert from "node:assert";
-import {beforeEach} from "node:test";
+import {BankingPage} from "../pages/bankingPage";
 
 test.beforeEach(async ({page}) => {
     // Set timeout for this hook.
     await page.goto("https://www.globalsqa.com/angularJs-protractor/BankingProject/#/login");
 });
 test.describe('Bank Tests', () => {
-    test('Customer login', async({page}) => {
-        await expect(page).toHaveTitle('XYZ Bank');
-        await page.getByRole('button', {name: 'Customer Login'}).click();
-        const userSelect = page.locator('#userSelect');
-        expect(userSelect).toBeVisible();
-        await userSelect.selectOption('2');
-        await expect(page.locator('button[ng-show^=\'custId\']', {name: "submit"})).toBeVisible();
-        await page.locator('button[ng-show^=\'custId\']', {name: "submit"}).dblclick();
-        await expect(page).toHaveURL('https://www.globalsqa.com/angularJs-protractor/BankingProject/#/account')
+    test.only('Customer login', async({page}) => {
+        const bankingPage = new BankingPage(page);
+        const expectedTitle = 'XYZ Bank';
+        const expectedURL = 'https://www.globalsqa.com/angularJs-protractor/BankingProject/#/account'
+        await expect(page).toHaveTitle(expectedTitle)
+        await bankingPage.loginButton();
+        await bankingPage.userSelector('2');
+        await bankingPage.pressSubmitButton();
+        await expect(page).toHaveURL(expectedURL)
     });
     test('Add new customer', async({page}) => {
+        const firstName =  'Test';
+        const lastName =  'Testovich';
+        const postCode = '192280'
         await expect(page).toHaveTitle('XYZ Bank');
         await page.getByRole('button', {name: 'Bank Manager Login'}).click();
         await expect(page.getByRole('button', {name: 'Add Customer'})).toBeVisible();
