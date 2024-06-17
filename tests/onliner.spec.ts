@@ -13,6 +13,7 @@ test.describe('Bank Tests', () => {
         await expect(page).toHaveTitle(expectedTitle)
         await bankingPage.loginButton();
         await bankingPage.userSelector('2');
+        await bankingPage.checkSubmitButton(); //expect
         await bankingPage.pressSubmitButton();
         await expect(page).toHaveURL(expectedURL)
     });
@@ -31,6 +32,7 @@ test.describe('Bank Tests', () => {
         await bankingPage.addCustomerFirstName(firstName);
         await bankingPage.addCustomerLastName(lastName);
         await bankingPage.addCustomerPostCode(postCode);
+        await bankingPage.checkCustomerDataFields(); //expect
         await bankingPage.pressSubmitButton();
         await expect(page).toHaveURL(expectedURL)
     });
@@ -42,11 +44,13 @@ test.describe('Bank Tests', () => {
         await expect(page).toHaveTitle(expectedTitle)
         await bankingPage.loginButton();
         await bankingPage.userSelector('2');
+        await bankingPage.checkSubmitButton(); //expect
         await bankingPage.pressSubmitButton();
         await bankingPage.pressDepositeButton();
+        await bankingPage.checkAmountField() //expect
         await bankingPage.fillAmountField(depositeAmount);
         await bankingPage.pressApplyButton()
-        //check successMessage visible
+        await bankingPage.checkSuccessMessage(); //expect
     });
 
     test('Add new withdrawl to custom user', async({page}) => {
@@ -56,10 +60,13 @@ test.describe('Bank Tests', () => {
         await expect(page).toHaveTitle(expectedTitle);
         await bankingPage.loginButton();
         await bankingPage.userSelector('2');
+        await bankingPage.checkSubmitButton(); //expect
         await bankingPage.pressSubmitButton();
         await bankingPage.pressWithdrawlButton();
+        await bankingPage.checkAmountField() //expect
         await bankingPage.fillAmountField(depositeAmount);
-        await bankingPage.pressApplyButton()
+        await bankingPage.pressApplyButton();
+        await bankingPage.checkSuccessMessage(); //expect
     });
 
     test('Check user transactions', async({page}) => {
@@ -68,8 +75,9 @@ test.describe('Bank Tests', () => {
         const expectedURL = 'https://www.globalsqa.com/angularJs-protractor/BankingProject/#/account'
         await bankingPage.loginButton();
         await bankingPage.userSelector('2');
+        await bankingPage.checkSubmitButton(); //expect
         await bankingPage.pressSubmitButton();
         await bankingPage.pressTransitionButton();
-        await expect(bankingPage.checkTransitionList()).toBeVisible();
+        await bankingPage.checkTransitionList();   //expect
     })
 })
