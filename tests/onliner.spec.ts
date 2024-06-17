@@ -6,7 +6,7 @@ test.beforeEach(async ({page}) => {
     await page.goto("https://www.globalsqa.com/angularJs-protractor/BankingProject/#/login");
 });
 test.describe('Bank Tests', () => {
-    test.only('Customer login', async({page}) => {
+    test('Customer login', async({page}) => {
         const bankingPage = new BankingPage(page);
         const expectedTitle = 'XYZ Bank';
         const expectedURL = 'https://www.globalsqa.com/angularJs-protractor/BankingProject/#/account'
@@ -16,57 +16,60 @@ test.describe('Bank Tests', () => {
         await bankingPage.pressSubmitButton();
         await expect(page).toHaveURL(expectedURL)
     });
+
     test('Add new customer', async({page}) => {
         const firstName =  'Test';
         const lastName =  'Testovich';
         const postCode = '192280'
-        await expect(page).toHaveTitle('XYZ Bank');
-        await page.getByRole('button', {name: 'Bank Manager Login'}).click();
-        await expect(page.getByRole('button', {name: 'Add Customer'})).toBeVisible();
-        await page.getByRole('button', {name: 'Add Customer'}).click();
-        await expect(page.getByPlaceholder('First Name')).toBeVisible();
-        await page.getByPlaceholder('First Name').fill('Test');
-        await page.getByPlaceholder('Last Name').fill('Testovich');
-        await page.getByPlaceholder('Post Code').fill('192280');
-        await page.locator("button[class$='btn-default']").click();
+        const bankingPage = new BankingPage(page);
+        const expectedTitle = 'XYZ Bank';
+        const expectedURL = 'https://www.globalsqa.com/angularJs-protractor/BankingProject/#/account'
+        await expect(page).toHaveTitle(expectedTitle)
+        await bankingPage.bankButton();
+        await bankingPage.pressCustomerButton();
+        await bankingPage.addNewBankCustomer();
+        await bankingPage.addCustomerFirstName(firstName);
+        await bankingPage.addCustomerLastName(lastName);
+        await bankingPage.addCustomerPostCode(postCode);
+        await bankingPage.pressSubmitButton();
+        await expect(page).toHaveURL(expectedURL)
     });
+
     test('Add new deposite to custom user', async({page}) => {
-        await expect (page).toHaveTitle('XYZ Bank');
-        await page.getByRole('button', {name: 'Customer Login'}).click();
-        const userSelect = page.locator('#userSelect');
-        expect (userSelect).toBeVisible();
-        await userSelect.selectOption('2');
-        await expect (page.locator('button[ng-show^=\'custId\']', {name: "submit"})).toBeVisible();
-        await page.locator('button[ng-show^=\'custId\']', {name: "submit"}).dblclick();
-        await page.locator('button[ng-class=\'btnClass2\']').click();
-        await expect(page.getByPlaceholder('amount')).toBeVisible();
-        await page.getByPlaceholder('amount').fill('2000');
-        await page.locator('button[class$=\'btn-default\']').click();
-        await expect(page.locator('span[ng-show=\'message\']')).toBeVisible();
+        const bankingPage = new BankingPage(page);
+        const expectedTitle = 'XYZ Bank';
+        const depositeAmount = '2000';
+        await expect(page).toHaveTitle(expectedTitle)
+        await bankingPage.loginButton();
+        await bankingPage.userSelector('2');
+        await bankingPage.pressSubmitButton();
+        await bankingPage.pressDepositeButton();
+        await bankingPage.fillAmountField(depositeAmount);
+        await bankingPage.pressApplyButton()
+        //check successMessage visible
     });
+
     test('Add new withdrawl to custom user', async({page}) => {
-        await expect (page).toHaveTitle('XYZ Bank');
-        await page.getByRole('button', {name: 'Customer Login'}).click();
-        const userSelect = page.locator('#userSelect');
-        expect (userSelect).toBeVisible();
-        await userSelect.selectOption('2');
-        await expect (page.locator('button[ng-show^=\'custId\']', {name: "submit"})).toBeVisible();
-        await page.locator('button[ng-show^=\'custId\']', {name: "submit"}).dblclick();
-        await page.locator('button[ng-class=\'btnClass3\']').click();
-        await expect(page.getByPlaceholder('amount')).toBeVisible();
-        await page.getByPlaceholder('amount').fill('500');
-        await page.locator('button[class$=\'btn-default\']').click();
-        await expect(page.locator('span[ng-show=\'message\']')).toBeVisible();
+        const bankingPage = new BankingPage(page);
+        const expectedTitle = 'XYZ Bank';
+        const depositeAmount = '500';
+        await expect(page).toHaveTitle(expectedTitle);
+        await bankingPage.loginButton();
+        await bankingPage.userSelector('2');
+        await bankingPage.pressSubmitButton();
+        await bankingPage.pressWithdrawlButton();
+        await bankingPage.fillAmountField(depositeAmount);
+        await bankingPage.pressApplyButton()
     });
+
     test('Check user transactions', async({page}) => {
-        await expect (page).toHaveTitle('XYZ Bank');
-        await page.getByRole('button', {name: 'Customer Login'}).click();
-        const userSelect = page.locator('#userSelect');
-        expect (userSelect).toBeVisible();
-        await userSelect.selectOption('2');
-        await expect (page.locator('button[ng-show^=\'custId\']', {name: "submit"})).toBeVisible();
-        await page.locator('button[ng-show^=\'custId\']', {name: "submit"}).dblclick();
-        await page.locator('button[ng-class=\'btnClass1\']').click();
-        await expect (page.locator('a[ng-click*=\'sortReverse\']')).toBeVisible();
+        const bankingPage = new BankingPage(page);
+        const expectedTitle = 'XYZ Bank';
+        const expectedURL = 'https://www.globalsqa.com/angularJs-protractor/BankingProject/#/account'
+        await bankingPage.loginButton();
+        await bankingPage.userSelector('2');
+        await bankingPage.pressSubmitButton();
+        await bankingPage.pressTransitionButton();
+        await expect(bankingPage.checkTransitionList()).toBeVisible();
     })
 })

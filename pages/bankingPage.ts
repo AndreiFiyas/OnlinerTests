@@ -40,6 +40,12 @@ export class BankingPage {
 
 
     //Add new customer methods
+    public async bankButton() {
+        await this.bankLogin.click();
+    }
+    public async addNewBankCustomer() {
+        await this.addNewCustomer.click();
+    };
     public async addCustomerFirstName(firstName: string) {
         await this.customerFirstName.fill(firstName);
     };
@@ -52,6 +58,31 @@ export class BankingPage {
     public async pressCustomerButton() {
         await this.customerAddButton.click();
     };
+
+    //Add deposite methods
+    public async pressDepositeButton() {
+        await this.depositButton.click();
+    };
+    public async fillAmountField(depositeAmount: string) {
+        await this.amountField.fill(depositeAmount);
+    };
+    public async pressApplyButton() {
+        await this.applyButton.click();
+    }
+
+    //Add withdrawl & transaction methods
+    public async pressWithdrawlButton() {
+        await this.withdrawlButton.click();
+    };
+    public async pressTransitionButton() {
+        await this.transactionlButton.click();
+    };
+    public async checkTransitionList() {
+        await this.transactionList.click();
+    }
+
+
+
 
 
 }
