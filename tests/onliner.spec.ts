@@ -19,7 +19,7 @@ test.describe('Bank Tests', () => {
         await expect(page).toHaveURL(expectedURL)
     });
 
-    test('Add new customer', async({page}) => {
+    test.only('Add new customer', async({page}) => {
         const user = new UserBuilder().addFirstName().addLastName().depositeAmount().postCode().getUser();
         const bankingPage = new BankingPage(page);
         const expectedTitle = 'XYZ Bank';
@@ -32,7 +32,7 @@ test.describe('Bank Tests', () => {
         await bankingPage.addCustomerLastName(user);
         await bankingPage.addCustomerPostCode(user);
         await bankingPage.checkCustomerDataFields(); //expect
-        await bankingPage.pressSubmitButton();
+        await bankingPage.pressAddCustomer();
         await expect(page).toHaveURL(expectedURL)
     });
 

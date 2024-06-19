@@ -3,13 +3,16 @@ import {expect, Page} from "@playwright/test";
 export class BankingPage {
     public readonly customerLogin =  this.page.getByRole('button', {name: 'Customer Login'});
     public readonly userSelect = this.page.locator('#userSelect');
-    public readonly submitButton = this.page.locator('button[ng-show^=\'custId\']', {name: "submit"});
+    // public readonly submitButton = this.page.locator('button[ng-show^=\'custId\']', {name: "submit"});
+    public readonly submitButton = this.page.getByRole('button', {name: 'Login'})
+    public readonly addCustomerButton = this.page.getByRole('button', {name: 'Add Customer'})
     public readonly bankLogin = this.page.getByRole('button', {name: 'Bank Manager Login'});
     public readonly addNewCustomer = this.page.getByRole('button', {name: 'Add Customer'});
     public readonly customerFirstName = this.page.getByPlaceholder('First Name');
     public readonly customerLastName = this.page.getByPlaceholder('Last Name');
     public readonly customerPostCode = this.page.getByPlaceholder('Post Code');
-    public readonly customerAddButton = this.page.locator("button[class$='btn-default']");
+    // public readonly customerAddButton = this.page.locator("button[class$='btn-default']");
+    public readonly customerAddButton = this.page.getByRole('button', {name: 'Add Customer'})
     public readonly depositButton = this.page.locator('button[ng-class=\'btnClass2\']');
     public readonly amountField = this.page.getByPlaceholder('amount');
     public readonly applyButton = this.page.locator('button[class$=\'btn-default\']');
@@ -62,6 +65,9 @@ export class BankingPage {
     };
     public async pressCustomerButton() {
         await this.customerAddButton.click();
+    };
+    public async pressAddCustomer() {
+        await this.addCustomerButton.nth(1).click();
     };
 
     //Add deposite methods
