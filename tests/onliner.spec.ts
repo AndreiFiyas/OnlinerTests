@@ -1,5 +1,6 @@
 import {expect, test} from "@playwright/test";
 import {BankingPage} from "../pages/bankingPage";
+import { UserBuilder } from '../services/user_builder';
 
 test.beforeEach(async ({page}) => {
     // Set timeout for this hook.
@@ -19,9 +20,7 @@ test.describe('Bank Tests', () => {
     });
 
     test('Add new customer', async({page}) => {
-        const firstName =  'Test';
-        const lastName =  'Testovich';
-        const postCode = '192280'
+        const user = new UserBuilder().addFirstName().addLastName().depositeAmount().postCode().getUser();
         const bankingPage = new BankingPage(page);
         const expectedTitle = 'XYZ Bank';
         const expectedURL = 'https://www.globalsqa.com/angularJs-protractor/BankingProject/#/account'
@@ -29,9 +28,9 @@ test.describe('Bank Tests', () => {
         await bankingPage.bankButton();
         await bankingPage.pressCustomerButton();
         await bankingPage.addNewBankCustomer();
-        await bankingPage.addCustomerFirstName(firstName);
-        await bankingPage.addCustomerLastName(lastName);
-        await bankingPage.addCustomerPostCode(postCode);
+        await bankingPage.addCustomerFirstName(user);
+        await bankingPage.addCustomerLastName(user);
+        await bankingPage.addCustomerPostCode(user);
         await bankingPage.checkCustomerDataFields(); //expect
         await bankingPage.pressSubmitButton();
         await expect(page).toHaveURL(expectedURL)
@@ -40,7 +39,7 @@ test.describe('Bank Tests', () => {
     test('Add new deposite to custom user', async({page}) => {
         const bankingPage = new BankingPage(page);
         const expectedTitle = 'XYZ Bank';
-        const depositeAmount = '2000';
+        const user = new UserBuilder().addFirstName().addLastName().depositeAmount().postCode().getUser();
         await expect(page).toHaveTitle(expectedTitle)
         await bankingPage.loginButton();
         await bankingPage.userSelector('2');
@@ -48,7 +47,7 @@ test.describe('Bank Tests', () => {
         await bankingPage.pressSubmitButton();
         await bankingPage.pressDepositeButton();
         await bankingPage.checkAmountField() //expect
-        await bankingPage.fillAmountField(depositeAmount);
+        await bankingPage.fillAmountField(user);
         await bankingPage.pressApplyButton()
         await bankingPage.checkSuccessMessage(); //expect
     });
@@ -56,7 +55,7 @@ test.describe('Bank Tests', () => {
     test('Add new withdrawl to custom user', async({page}) => {
         const bankingPage = new BankingPage(page);
         const expectedTitle = 'XYZ Bank';
-        const depositeAmount = '500';
+        const user = new UserBuilder().addFirstName().addLastName().depositeAmount().postCode().getUser();
         await expect(page).toHaveTitle(expectedTitle);
         await bankingPage.loginButton();
         await bankingPage.userSelector('2');
@@ -64,7 +63,7 @@ test.describe('Bank Tests', () => {
         await bankingPage.pressSubmitButton();
         await bankingPage.pressWithdrawlButton();
         await bankingPage.checkAmountField() //expect
-        await bankingPage.fillAmountField(depositeAmount);
+        await bankingPage.fillAmountField(user);
         await bankingPage.pressApplyButton();
         await bankingPage.checkSuccessMessage(); //expect
     });

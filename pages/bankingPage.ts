@@ -46,14 +46,14 @@ export class BankingPage {
     public async addNewBankCustomer() {
         await this.addNewCustomer.click();
     };
-    public async addCustomerFirstName(firstName: string) {
-        await this.customerFirstName.fill(firstName);
+    public async addCustomerFirstName(user: { firstname: string, lastname: string, depositeamount: string, postcode: string }) {
+        await this.customerFirstName.fill(user.firstname);
     };
-    public async addCustomerLastName(lastName: string) {
-        await this.customerLastName.fill(lastName);
+    public async addCustomerLastName(user: { firstname: string, lastname: string, depositeamount: string, postcode: string }) {
+        await this.customerLastName.fill(user.lastname);
     };
-    public async addCustomerPostCode(postCode: string) {
-        await this.customerPostCode.fill(postCode);
+    public async addCustomerPostCode(user: { firstname: string, lastname: string, depositeamount: string, postcode: string }) {
+        await this.customerPostCode.fill(user.postcode);
     };
     public async checkCustomerDataFields() {
         await expect(this.customerFirstName).toBeVisible();
@@ -68,8 +68,8 @@ export class BankingPage {
     public async pressDepositeButton() {
         await this.depositButton.click();
     };
-    public async fillAmountField(depositeAmount: string) {
-        await this.amountField.fill(depositeAmount);
+    public async fillAmountField(user: { firstname: string, lastname: string, depositeamount: string, postcode: string }) {
+        await this.amountField.fill(user.depositeamount);
     };
     public async checkAmountField() {
         await expect(this.amountField).toBeVisible();
