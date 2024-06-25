@@ -19,11 +19,10 @@ test.describe('Bank Tests', () => {
         await expect(page).toHaveURL(expectedURL)
     });
 
-    test.only('Add new customer', async({page}) => {
+    test('Add new customer', async({page}) => {
         const user = new UserBuilder().addFirstName().addLastName().depositeAmount().postCode().getUser();
         const bankingPage = new BankingPage(page);
         const expectedTitle = 'XYZ Bank';
-        const expectedURL = 'https://www.globalsqa.com/angularJs-protractor/BankingProject/#/account'
         await expect(page).toHaveTitle(expectedTitle)
         await bankingPage.bankButton();
         await bankingPage.pressCustomerButton();
@@ -32,8 +31,11 @@ test.describe('Bank Tests', () => {
         await bankingPage.addCustomerLastName(user);
         await bankingPage.addCustomerPostCode(user);
         await bankingPage.checkCustomerDataFields(); //expect
+        page.on('dialog', async dialog => {
+            expect(dialog.message()).toContain('Customer added successfully with customer id');
+            await dialog.accept();
+        });
         await bankingPage.pressAddCustomer();
-        await expect(page).toHaveURL(expectedURL)
     });
 
     test('Add new deposite to custom user', async({page}) => {

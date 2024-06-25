@@ -68,7 +68,13 @@ export class BankingPage {
     };
     public async pressAddCustomer() {
         await this.addCustomerButton.nth(1).click();
+
     };
+    // public async checkAlertCustomerAdded(page) {
+    //     await page.once('dialog', async dialog => {
+    //         expect(dialog.message()).toBe('Customer added successfully with customer id');
+    //     })
+    // }
 
     //Add deposite methods
     public async pressDepositeButton() {
